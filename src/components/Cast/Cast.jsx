@@ -18,7 +18,11 @@ const Cast = ({ id }) => {
             <li key={actor.id}>
               <img
                 width="100px"
-                src={imageBaseUrl + actor.profile_path}
+                src={
+                  actor.profile_path !== null
+                    ? imageBaseUrl + actor.profile_path
+                    : 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png'
+                }
                 alt=""
               />
               <p>{actor.name}</p>

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import {
   useParams,
   useNavigate,
+  useLocation,
   NavLink,
   Route,
   Routes,
@@ -23,6 +24,10 @@ const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
   const imageBaseUrl = 'https://image.tmdb.org/t/p/original';
   const navigate = useNavigate();
+  const location = useLocation();
+  const pageFrom = `${location?.state?.from?.pathname ?? '/'}${
+    location?.state?.from?.search ?? ''
+  }`;
 
   useEffect(() => {
     getMovieById(movieId).then(setMovie);
@@ -36,7 +41,7 @@ const MovieDetailsPage = () => {
             <GoBackButton
               type="button"
               onClick={() => {
-                navigate(-1);
+                navigate(pageFrom);
               }}
             >
               <ButtonImage></ButtonImage>Go back
@@ -64,6 +69,7 @@ const MovieDetailsPage = () => {
               isActive ? { color: '#5fbcff' } : undefined
             }
             to="cast"
+            state={{ from: location?.state?.from ?? null }}
           >
             Cast
           </NavLink>
@@ -73,6 +79,7 @@ const MovieDetailsPage = () => {
               isActive ? { color: '#5fbcff' } : undefined
             }
             to="reviews"
+            state={{ from: location?.state?.from ?? null }}
           >
             Reviews
           </NavLink>

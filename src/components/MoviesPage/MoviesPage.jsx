@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { getMoviesByQuery } from 'services/movieSearchApi';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { List, ListItem, MovieLink } from 'components/HomePage/HomePage.styled';
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [params, setParams] = useSearchParams();
+  const location = useLocation();
 
   useEffect(() => {
     if (!params.get('query')) {
@@ -34,7 +35,9 @@ const MoviesPage = () => {
         <List>
           {movies.map(movie => (
             <ListItem key={movie.id}>
-              <MovieLink to={`${movie.id}`}>{movie.title}</MovieLink>
+              <MovieLink to={`${movie.id}`} state={{ from: location }}>
+                {movie.title}
+              </MovieLink>
             </ListItem>
           ))}
         </List>
